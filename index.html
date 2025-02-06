@@ -126,6 +126,13 @@
     }
     @keyframes flash { 0%,100% { color: #ff0077; } 50% { color: #000; } }
     .flash { animation: flash 1s linear; }
+
+    /* Image display for after "No" button */
+    #finalImage {
+      display: none;
+      margin-top: 20px;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -159,6 +166,7 @@
       <button class="btn-no" id="noBtn">No</button>
     </div>
     <div id="message"></div>
+    <img id="finalImage" src="https://i.imgflip.com/9j899x.jpg" alt="Your final image" /> <!-- Your final image here -->
   </div>
  
   <script>
@@ -202,6 +210,7 @@
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     var messageDiv = document.getElementById('message');
+    var finalImage = document.getElementById('finalImage');
    
     // Array of messages for when "No" is pressed
     var noMessages = [
@@ -231,8 +240,9 @@
          displayMessage(noMessages[noCount]);
          noCount++;
       } else {
-         // Once all messages are displayed, you could either disable the button or loop
+         // Show the final image after all messages
          displayMessage("I guess that's it...");
+         finalImage.style.display = 'block'; // Display the image
          noBtn.disabled = true;
       }
     });
