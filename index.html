@@ -126,6 +126,26 @@
     }
     @keyframes flash { 0%,100% { color: #ff0077; } 50% { color: #000; } }
     .flash { animation: flash 1s linear; }
+    /* Final "No" Section */
+    #finalNoSection {
+      display: none;
+      text-align: center;
+    }
+    #finalNoSection img {
+      max-width: 90%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    #finalNoSection button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #66ff66;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -160,6 +180,12 @@
     </div>
     <div id="message"></div>
   </div>
+
+  <!-- Final "No" Section: Shown after repeated "No" clicks -->
+  <div id="finalNoSection">
+    <img src="https://i.imgflip.com/9jfbw8.jpg" alt="Final No Image">
+    <button id="finalYesBtn">Yes</button>
+  </div>
   
   <!-- Hidden Audio for Surprise Noise -->
   <audio id="surpriseAudio" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
@@ -185,7 +211,7 @@
       var fName = document.getElementById('firstName').value.trim();
       var lName = document.getElementById('lastName').value.trim();
       var loginMsg = document.getElementById('loginMessage');
-      var correctLast = "Baptiste";
+      var correctLast = "Murray";
      
       if(!tosAccepted){
         loginMsg.textContent = "You must accept the Terms first!";
@@ -207,6 +233,7 @@
     // Valentine page logic
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
+    var finalYesBtn = document.getElementById('finalYesBtn');
     var messageDiv = document.getElementById('message');
    
     // Array of messages for when "No" is pressed
@@ -234,7 +261,6 @@
       var duration = 2000;
       var end = Date.now() + duration;
       (function frame() {
-        // Confetti from random positions along the bottom (y:1)
         confetti({
           particleCount: 5,
           angle: 60,
@@ -253,17 +279,16 @@
       }());
     }
    
-    yesBtn.addEventListener('click', function(){
-      // Hide the Valentine section
+    // Final action: hides the current section, shows the final image, plays audio, and launches confetti.
+    function triggerFinalAction(){
+      // Hide any sections that might be visible
       document.getElementById('valentineSection').style.display = 'none';
+      document.getElementById('finalNoSection').style.display = 'none';
       
-      // Create a new image element for the final image
+      // Create the final image element
       var finalImg = document.createElement('img');
-      // Use the direct image URL (adjust if needed)
       finalImg.src = "https://i.imgflip.com/9jfd0e.jpg";
       finalImg.alt = "Final Valentine Image";
-      
-      // Style the image so that it is centered on the screen
       finalImg.style.position = "fixed";
       finalImg.style.top = "50%";
       finalImg.style.left = "50%";
@@ -272,7 +297,6 @@
       finalImg.style.maxWidth = "90%";
       finalImg.style.height = "auto";
       
-      // Append the image to the body
       document.body.appendChild(finalImg);
       
       // Play the surprise sound
@@ -280,18 +304,27 @@
       
       // Launch confetti from the bottom of the screen
       launchConfetti();
-    });
+    }
    
+    // Attach the final action to both the original Yes button and the Yes button from the final No section.
+    yesBtn.addEventListener('click', triggerFinalAction);
+    finalYesBtn.addEventListener('click', triggerFinalAction);
+   
+    // "No" button logic: cycle through messages and then show the final No section.
     noBtn.addEventListener('click', function(){
       if(noCount < noMessages.length){
          displayMessage(noMessages[noCount]);
          noCount++;
-      } else {
-         displayMessage("I guess that's it...");
-         noBtn.disabled = true;
+         if(noCount === noMessages.length){
+             // After displaying the final message, wait briefly then hide the Valentine section
+             // and show the final No section with the single Yes button.
+             setTimeout(function(){
+                 document.getElementById('valentineSection').style.display = 'none';
+                 document.getElementById('finalNoSection').style.display = 'block';
+             }, 1000);
+         }
       }
     });
   </script>
 </body>
 </html>
-
