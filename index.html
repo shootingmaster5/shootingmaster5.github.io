@@ -179,7 +179,7 @@
       var fName = document.getElementById('firstName').value.trim();
       var lName = document.getElementById('lastName').value.trim();
       var loginMsg = document.getElementById('loginMessage');
-      var correctLast = "Baptiste";
+      var correctLast = "Murray";
      
       if(!tosAccepted){
         loginMsg.textContent = "You must accept the Terms first!";
@@ -224,7 +224,26 @@
     }
    
     yesBtn.addEventListener('click', function(){
-      displayMessage("Yasss, I knew you'd say yes!");
+      // Hide the Valentine section
+      document.getElementById('valentineSection').style.display = 'none';
+      
+      // Create a new image element for the final image
+      var finalImg = document.createElement('img');
+      // Use the direct image URL (adjust if needed)
+      finalImg.src = "https://i.imgflip.com/9jfd0e.jpg";
+      finalImg.alt = "Final Valentine Image";
+      
+      // Style the image so that it is centered on the screen
+      finalImg.style.position = "fixed";
+      finalImg.style.top = "50%";
+      finalImg.style.left = "50%";
+      finalImg.style.transform = "translate(-50%, -50%)";
+      finalImg.style.zIndex = "200";
+      finalImg.style.maxWidth = "90%";
+      finalImg.style.height = "auto";
+      
+      // Append the image to the body
+      document.body.appendChild(finalImg);
     });
    
     noBtn.addEventListener('click', function(){
@@ -232,7 +251,6 @@
          displayMessage(noMessages[noCount]);
          noCount++;
       } else {
-         // Once all messages are displayed, you could either disable the button or loop
          displayMessage("I guess that's it...");
          noBtn.disabled = true;
       }
