@@ -126,25 +126,16 @@
     }
     @keyframes flash { 0%,100% { color: #ff0077; } 50% { color: #000; } }
     .flash { animation: flash 1s linear; }
-    
     /* Final "No" Section */
     #finalNoSection {
       display: none;
       text-align: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      padding-top: 50px;
-      z-index: 150;
     }
     #finalNoSection img {
       max-width: 90%;
       height: auto;
       display: block;
-      margin: 20px auto;
+      margin: 0 auto;
     }
     #finalNoSection button {
       padding: 15px 30px;
@@ -152,121 +143,8 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin: 10px;
-    }
-    
-    /* No Isaiah Screen */
-    #noIsaiahScreen {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: red;
-      z-index: 150;
-      /* Use flex to center the content vertically and horizontally */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    /* Container for the GIF and button (placed above the bouncing messages) */
-    .no-isaiah-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    /* Updated image style so that it appears centered */
-    #noIsaiahGif {
-      max-width: 90%;
-      height: auto;
-      display: block;
-    }
-    #noIsaiahScreen button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: pink;
+      background-color: #66ff66;
       margin-top: 20px;
-    }
-    /* Bouncing messages in the background */
-    .bouncing-message-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .bouncing-message {
-      position: absolute;
-      font-size: 2em;
-      color: white;
-      animation: bounce 4s infinite;
-    }
-    .bouncing-message:nth-child(1) {
-      top: 10%;
-      left: 10%;
-      animation-duration: 3s;
-    }
-    .bouncing-message:nth-child(2) {
-      top: 10%;
-      right: 10%;
-      animation-duration: 4s;
-      animation-delay: 0.5s;
-    }
-    .bouncing-message:nth-child(3) {
-      bottom: 10%;
-      left: 10%;
-      animation-duration: 3.5s;
-      animation-delay: 1s;
-    }
-    .bouncing-message:nth-child(4) {
-      bottom: 10%;
-      right: 10%;
-      animation-duration: 4.5s;
-      animation-delay: 1.5s;
-    }
-    .bouncing-message:nth-child(5) {
-      top: 50%;
-      left: 50%;
-      animation-duration: 3.8s;
-      animation-delay: 2s;
-    }
-    @keyframes bounce {
-      0% { transform: translate(0, 0); }
-      25% { transform: translate(50px, 0); }
-      50% { transform: translate(50px, 50px); }
-      75% { transform: translate(0, 50px); }
-      100% { transform: translate(0, 0); }
-    }
-    
-    /* Secret Ending Section */
-    #secretEndingSection {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      text-align: center;
-      padding-top: 50px;
-      z-index: 150;
-    }
-    #secretEndingSection h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    #secretEndingSection img {
-      max-width: 90%;
-      height: auto;
     }
   </style>
 </head>
@@ -303,39 +181,14 @@
     <div id="message"></div>
   </div>
 
-  <!-- Final "No" Section: Shown after all "No" messages -->
+  <!-- Final "No" Section: Shown after repeated "No" clicks -->
   <div id="finalNoSection">
     <img src="https://i.imgflip.com/9jfbw8.jpg" alt="Final No Image">
     <button id="finalYesBtn">Yes</button>
-    <button id="noIsaiahBtn">No Isaiah!</button>
   </div>
   
-  <!-- No Isaiah Screen -->
-  <div id="noIsaiahScreen">
-    <div class="bouncing-message-container">
-      <div class="bouncing-message">Whyy?</div>
-      <div class="bouncing-message">Whyy?</div>
-      <div class="bouncing-message">Whyy?</div>
-      <div class="bouncing-message">Whyy?</div>
-      <div class="bouncing-message">Whyy?</div>
-    </div>
-    <div class="no-isaiah-content">
-      <!-- Updated to use a direct GIF link from Tenor -->
-      <img id="noIsaiahGif" src="https://media.tenor.com/FP_qqFS1m6QAAAAM/gollum-scream-lord-of-the-rings.gif" alt="No Isaiah Image">
-      <button id="secretEndingBtn">Secret ending</button>
-    </div>
-  </div>
-  
-  <!-- Secret Ending Section -->
-  <div id="secretEndingSection">
-    <h1>Nonchalant boyfriend mode activated</h1>
-    <img src="https://i.imgflip.com/9jfl3q.jpg" alt="Secret Ending Image">
-  </div>
-  
-  <!-- Hidden Audio for Surprise Sound -->
+  <!-- Hidden Audio for Surprise Noise -->
   <audio id="surpriseAudio" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
-  <!-- Hidden Audio for Secret Ending (replace the src URL with a valid audio file) -->
-  <audio id="secretAudio" src="https://example.com/fatjuicyandwet.mp3" preload="auto"></audio>
   
   <!-- Load canvas-confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -352,13 +205,13 @@
       document.getElementById('tosModal').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
     }
-    
+   
     // Login logic
     function validateLogin(){
       var fName = document.getElementById('firstName').value.trim();
       var lName = document.getElementById('lastName').value.trim();
       var loginMsg = document.getElementById('loginMessage');
-      var correctLast = "Baptiste";
+      var correctLast = "Murray";
      
       if(!tosAccepted){
         loginMsg.textContent = "You must accept the Terms first!";
@@ -376,15 +229,13 @@
          loginMsg.textContent = "Access Denied. Are you sure you're my girlfriend?";
       }
     }
-    
+   
     // Valentine page logic
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     var finalYesBtn = document.getElementById('finalYesBtn');
-    var noIsaiahBtn = document.getElementById('noIsaiahBtn');
-    var secretEndingBtn = document.getElementById('secretEndingBtn');
     var messageDiv = document.getElementById('message');
-    
+   
     // Array of messages for when "No" is pressed
     var noMessages = [
       "Are you sure?",
@@ -395,7 +246,7 @@
       "I'm not sharing my Honey Buns with you anymore"
     ];
     var noCount = 0;
-    
+   
     function displayMessage(text){
       messageDiv.textContent = text;
       messageDiv.classList.remove('flash');
@@ -404,7 +255,7 @@
       messageDiv.classList.add('flash');
       messageDiv.style.opacity = 1;
     }
-    
+   
     // Function to launch confetti from the bottom of the screen for 2 seconds
     function launchConfetti() {
       var duration = 2000;
@@ -427,12 +278,14 @@
         }
       }());
     }
-    
-    // Final action: hides current sections, shows the final image with confetti and plays audio.
+   
+    // Final action: hides the current section, shows the final image, plays audio, and launches confetti.
     function triggerFinalAction(){
+      // Hide any sections that might be visible
       document.getElementById('valentineSection').style.display = 'none';
       document.getElementById('finalNoSection').style.display = 'none';
       
+      // Create the final image element
       var finalImg = document.createElement('img');
       finalImg.src = "https://i.imgflip.com/9jfd0e.jpg";
       finalImg.alt = "Final Valentine Image";
@@ -446,20 +299,25 @@
       
       document.body.appendChild(finalImg);
       
+      // Play the surprise sound
       document.getElementById('surpriseAudio').play();
+      
+      // Launch confetti from the bottom of the screen
       launchConfetti();
     }
-    
-    // Attach final action to the Yes buttons.
+   
+    // Attach the final action to both the original Yes button and the Yes button from the final No section.
     yesBtn.addEventListener('click', triggerFinalAction);
     finalYesBtn.addEventListener('click', triggerFinalAction);
-    
-    // "No" button logic: cycle through messages then show the Final No screen.
+   
+    // "No" button logic: cycle through messages and then show the final No section.
     noBtn.addEventListener('click', function(){
       if(noCount < noMessages.length){
          displayMessage(noMessages[noCount]);
          noCount++;
          if(noCount === noMessages.length){
+             // After displaying the final message, wait briefly then hide the Valentine section
+             // and show the final No section with the single Yes button.
              setTimeout(function(){
                  document.getElementById('valentineSection').style.display = 'none';
                  document.getElementById('finalNoSection').style.display = 'block';
@@ -467,19 +325,9 @@
          }
       }
     });
-    
-    // "No Isaiah!" button: show the No Isaiah screen.
-    noIsaiahBtn.addEventListener('click', function(){
-      document.getElementById('finalNoSection').style.display = 'none';
-      document.getElementById('noIsaiahScreen').style.display = 'flex';
-    });
-    
-    // "Secret ending" button: show the Secret Ending screen and play secret audio.
-    secretEndingBtn.addEventListener('click', function(){
-      document.getElementById('noIsaiahScreen').style.display = 'none';
-      document.getElementById('secretEndingSection').style.display = 'block';
-      document.getElementById('secretAudio').play();
-    });
   </script>
 </body>
 </html>
+
+
+
