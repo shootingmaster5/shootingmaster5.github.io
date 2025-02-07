@@ -167,6 +167,7 @@
       font-weight: bold;
       color: white;
     }
+    /* "I'm sorry" Button styling changed here */
     #imSorryBtn {
       position: absolute;
       left: 50%;
@@ -174,11 +175,49 @@
       transform: translate(-50%, -50%);
       padding: 20px 40px;
       font-size: 2em;
-      background-color: white;
+      background-color: red;
+      color: black;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       z-index: 400;
+    }
+    /* Forgiveness Screen */
+    #forgivenessScreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: pink;
+      z-index: 500;
+      text-align: center;
+      padding-top: 50px;
+    }
+    #forgivenessScreen .forgivenessMessage {
+      font-size: 2em;
+      color: black;
+      margin-bottom: 20px;
+    }
+    #forgivenessScreen img {
+      max-width: 90%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    /* Heart container and hearts */
+    #heartContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .heart {
+      position: absolute;
+      font-size: 2em;
+      color: red;
     }
   </style>
 </head>
@@ -228,6 +267,13 @@
   <div id="whyScreen">
     <div id="whyContainer"></div>
     <button id="imSorryBtn">I'm sorry</button>
+  </div>
+  
+  <!-- Forgiveness Screen -->
+  <div id="forgivenessScreen">
+    <div class="forgivenessMessage">Okay, I forgive you but only because I love you more</div>
+    <img src="https://imgflip.com/i/9jfl3q" alt="Forgiveness Image">
+    <div id="heartContainer"></div>
   </div>
   
   <!-- Hidden Audio for Surprise Noise -->
@@ -322,7 +368,7 @@
       }());
     }
    
-    // Final action: hides any visible sections, shows a final image, plays audio, and launches confetti.
+    // Final action: (kept for the Yes buttons)
     function triggerFinalAction(){
       document.getElementById('valentineSection').style.display = 'none';
       document.getElementById('finalNoSection').style.display = 'none';
@@ -366,7 +412,7 @@
     // Event listener for the "No Isaiah" button.
     var finalNoIsaiahBtn = document.getElementById('finalNoIsaiahBtn');
     finalNoIsaiahBtn.addEventListener('click', finalNoIsaiahAction);
-
+   
     // When "No Isaiah" is clicked, hide the final section and show the Why Screen.
     function finalNoIsaiahAction() {
       document.getElementById('finalNoSection').style.display = 'none';
@@ -442,8 +488,36 @@
     document.getElementById('imSorryBtn').addEventListener('click', function() {
       clearInterval(intervalId); // Stop the moving texts.
       document.getElementById('whyScreen').style.display = 'none';
-      triggerFinalAction();
+      showForgivenessScreen();
     });
+    
+    // Show the Forgiveness Screen and generate hearts.
+    function showForgivenessScreen() {
+      var forgivenessScreen = document.getElementById('forgivenessScreen');
+      forgivenessScreen.style.display = 'block';
+      generateHearts();
+    }
+    
+    // Generate random hearts on the forgiveness screen.
+    function generateHearts() {
+      var heartContainer = document.getElementById('heartContainer');
+      heartContainer.innerHTML = ''; // Clear previous hearts if any.
+      var numberOfHearts = 30; // Number of hearts to generate.
+      
+      for (var i = 0; i < numberOfHearts; i++) {
+        var heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '♥';
+        // Random position (using percentages)
+        var x = Math.random() * 100;
+        var y = Math.random() * 100;
+        heart.style.left = x + '%';
+        heart.style.top = y + '%';
+        // Random font size between 1em and 3em
+        heart.style.fontSize = (Math.random() * 2 + 1) + 'em';
+        heartContainer.appendChild(heart);
+      }
+    }
   </script>
 </body>
 </html>
