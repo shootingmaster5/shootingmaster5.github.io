@@ -137,15 +137,15 @@
       display: block;
       margin: 0 auto;
     }
-    #finalNoSection button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: #66ff66;
+    /* Container for final buttons */
+    #finalButtonContainer {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
       margin-top: 20px;
     }
+    /* Final buttons can use the same btn classes */
+    /* Hidden Audio for Surprise Noise */
   </style>
 </head>
 <body>
@@ -184,7 +184,10 @@
   <!-- Final "No" Section: Shown after repeated "No" clicks -->
   <div id="finalNoSection">
     <img src="https://i.imgflip.com/9jfbw8.jpg" alt="Final No Image">
-    <button id="finalYesBtn">Yes</button>
+    <div id="finalButtonContainer">
+      <button id="finalYesBtn" class="btn-yes">Yes</button>
+      <button id="finalNoIsaiahBtn" class="btn-no">No Isaiah</button>
+    </div>
   </div>
   
   <!-- Hidden Audio for Surprise Noise -->
@@ -317,7 +320,7 @@
          noCount++;
          if(noCount === noMessages.length){
              // After displaying the final message, wait briefly then hide the Valentine section
-             // and show the final No section with the single Yes button.
+             // and show the final No section with the Yes button and the new "No Isaiah" button.
              setTimeout(function(){
                  document.getElementById('valentineSection').style.display = 'none';
                  document.getElementById('finalNoSection').style.display = 'block';
@@ -325,9 +328,16 @@
          }
       }
     });
+
+    // New: Event listener for the red "No Isaiah" button
+    var finalNoIsaiahBtn = document.getElementById('finalNoIsaiahBtn');
+    finalNoIsaiahBtn.addEventListener('click', finalNoIsaiahAction);
+
+    function finalNoIsaiahAction() {
+      alert("Oh no, Isaiah is heartbroken. Maybe next time.");
+      // You can choose a different action here; for now, we reload the page.
+      location.reload();
+    }
   </script>
 </body>
 </html>
-
-
-
