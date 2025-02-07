@@ -144,8 +144,42 @@
       gap: 20px;
       margin-top: 20px;
     }
-    /* Final buttons can use the same btn classes */
-    /* Hidden Audio for Surprise Noise */
+    /* Why Screen for "No Isaiah" */
+    #whyScreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: red;
+      overflow: hidden;
+      z-index: 300;
+    }
+    #whyContainer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .whyText {
+      position: absolute;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    #imSorryBtn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      font-size: 2em;
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 400;
+    }
   </style>
 </head>
 <body>
@@ -188,6 +222,12 @@
       <button id="finalYesBtn" class="btn-yes">Yes</button>
       <button id="finalNoIsaiahBtn" class="btn-no">No Isaiah</button>
     </div>
+  </div>
+
+  <!-- Why Screen for "No Isaiah" -->
+  <div id="whyScreen">
+    <div id="whyContainer"></div>
+    <button id="imSorryBtn">I'm sorry</button>
   </div>
   
   <!-- Hidden Audio for Surprise Noise -->
@@ -282,13 +322,12 @@
       }());
     }
    
-    // Final action: hides the current section, shows the final image, plays audio, and launches confetti.
+    // Final action: hides any visible sections, shows a final image, plays audio, and launches confetti.
     function triggerFinalAction(){
-      // Hide any sections that might be visible
       document.getElementById('valentineSection').style.display = 'none';
       document.getElementById('finalNoSection').style.display = 'none';
+      document.getElementById('whyScreen').style.display = 'none';
       
-      // Create the final image element
       var finalImg = document.createElement('img');
       finalImg.src = "https://i.imgflip.com/9jfd0e.jpg";
       finalImg.alt = "Final Valentine Image";
@@ -302,25 +341,20 @@
       
       document.body.appendChild(finalImg);
       
-      // Play the surprise sound
       document.getElementById('surpriseAudio').play();
-      
-      // Launch confetti from the bottom of the screen
       launchConfetti();
     }
    
-    // Attach the final action to both the original Yes button and the Yes button from the final No section.
+    // Attach final action to the original Yes button and the Yes button in the final No section.
     yesBtn.addEventListener('click', triggerFinalAction);
     finalYesBtn.addEventListener('click', triggerFinalAction);
    
-    // "No" button logic: cycle through messages and then show the final No section.
+    // "No" button logic: cycle through messages then show the final No section.
     noBtn.addEventListener('click', function(){
       if(noCount < noMessages.length){
          displayMessage(noMessages[noCount]);
          noCount++;
          if(noCount === noMessages.length){
-             // After displaying the final message, wait briefly then hide the Valentine section
-             // and show the final No section with the Yes button and the new "No Isaiah" button.
              setTimeout(function(){
                  document.getElementById('valentineSection').style.display = 'none';
                  document.getElementById('finalNoSection').style.display = 'block';
@@ -328,16 +362,88 @@
          }
       }
     });
-
-    // New: Event listener for the red "No Isaiah" button
+   
+    // Event listener for the "No Isaiah" button.
     var finalNoIsaiahBtn = document.getElementById('finalNoIsaiahBtn');
     finalNoIsaiahBtn.addEventListener('click', finalNoIsaiahAction);
 
+    // When "No Isaiah" is clicked, hide the final section and show the Why Screen.
     function finalNoIsaiahAction() {
-      alert("Oh no, Isaiah is heartbroken. Maybe next time.");
-      // You can choose a different action here; for now, we reload the page.
-      location.reload();
+      document.getElementById('finalNoSection').style.display = 'none';
+      initWhyScreen();
     }
+    
+    // Variables for the Why Screen animation.
+    var whyElements = [];
+    var positions = [];
+    var velocities = [];
+    var intervalId;
+    
+    // Initialize the Why Screen: create 5 "Why?" texts that move randomly.
+    function initWhyScreen() {
+      var whyScreen = document.getElementById('whyScreen');
+      whyElements = [];
+      positions = [];
+      velocities = [];
+      
+      whyScreen.style.display = 'block';
+      
+      var container = document.getElementById('whyContainer');
+      container.innerHTML = ''; // Clear previous content
+      
+      for (var i = 0; i < 5; i++) {
+        var div = document.createElement('div');
+        div.className = 'whyText';
+        div.textContent = 'Why?';
+        container.appendChild(div);
+        
+        // Set a random initial position
+        var x = Math.random() * (whyScreen.clientWidth - 50);
+        var y = Math.random() * (whyScreen.clientHeight - 50);
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        
+        whyElements.push(div);
+        positions.push({ x: x, y: y });
+        // Random velocity between 1 and 4 pixels per frame (random direction)
+        var dx = (Math.random() * 3 + 1) * (Math.random() < 0.5 ? -1 : 1);
+        var dy = (Math.random() * 3 + 1) * (Math.random() < 0.5 ? -1 : 1);
+        velocities.push({ dx: dx, dy: dy });
+      }
+      
+      // Start the animation loop.
+      intervalId = setInterval(updateWhyTexts, 20);
+    }
+    
+    // Update positions for the "Why?" texts and bounce off the edges.
+    function updateWhyTexts() {
+      var whyScreen = document.getElementById('whyScreen');
+      var containerWidth = whyScreen.clientWidth;
+      var containerHeight = whyScreen.clientHeight;
+      
+      for (var i = 0; i < whyElements.length; i++) {
+        positions[i].x += velocities[i].dx;
+        positions[i].y += velocities[i].dy;
+        
+        // Bounce off edges (assuming element width/height of ~50px)
+        if (positions[i].x < 0 || positions[i].x > containerWidth - 50) {
+          velocities[i].dx = -velocities[i].dx;
+        }
+        if (positions[i].y < 0 || positions[i].y > containerHeight - 50) {
+          velocities[i].dy = -velocities[i].dy;
+        }
+        
+        whyElements[i].style.left = positions[i].x + 'px';
+        whyElements[i].style.top = positions[i].y + 'px';
+      }
+    }
+    
+    // Event listener for the "I'm sorry" button.
+    document.getElementById('imSorryBtn').addEventListener('click', function() {
+      clearInterval(intervalId); // Stop the moving texts.
+      document.getElementById('whyScreen').style.display = 'none';
+      triggerFinalAction();
+    });
   </script>
 </body>
 </html>
