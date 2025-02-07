@@ -133,7 +133,7 @@
   <div id="overlay"></div>
   <div id="tosModal">
     <h2>Terms &amp; Conditions</h2>
-    <p>Love Isaiah but not as much as he does you/p>
+    <p>Love Isaiah but not as much as he does you</p>
     <p>I will give Isaiah Honey Buns</p>
     <br>
     <button id="closeTos" onclick="acceptTos()">&#10004; I Agree</button>
@@ -160,7 +160,13 @@
     </div>
     <div id="message"></div>
   </div>
- 
+  
+  <!-- Hidden Audio for Surprise Noise -->
+  <audio id="surpriseAudio" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+  
+  <!-- Load canvas-confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
   <script>
     // TOS functions
     var tosAccepted = false;
@@ -179,7 +185,7 @@
       var fName = document.getElementById('firstName').value.trim();
       var lName = document.getElementById('lastName').value.trim();
       var loginMsg = document.getElementById('loginMessage');
-      var correctLast = "Murray";
+      var correctLast = "Baptiste";
      
       if(!tosAccepted){
         loginMsg.textContent = "You must accept the Terms first!";
@@ -223,6 +229,30 @@
       messageDiv.style.opacity = 1;
     }
    
+    // Function to launch confetti from the bottom of the screen for 2 seconds
+    function launchConfetti() {
+      var duration = 2000;
+      var end = Date.now() + duration;
+      (function frame() {
+        // Confetti from random positions along the bottom (y:1)
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: Math.random(), y: 1 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: Math.random(), y: 1 }
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+   
     yesBtn.addEventListener('click', function(){
       // Hide the Valentine section
       document.getElementById('valentineSection').style.display = 'none';
@@ -244,6 +274,12 @@
       
       // Append the image to the body
       document.body.appendChild(finalImg);
+      
+      // Play the surprise sound
+      document.getElementById('surpriseAudio').play();
+      
+      // Launch confetti from the bottom of the screen
+      launchConfetti();
     });
    
     noBtn.addEventListener('click', function(){
@@ -258,3 +294,4 @@
   </script>
 </body>
 </html>
+
