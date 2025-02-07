@@ -126,13 +126,6 @@
     }
     @keyframes flash { 0%,100% { color: #ff0077; } 50% { color: #000; } }
     .flash { animation: flash 1s linear; }
-
-    /* Image display for after "No" button */
-    #finalImage {
-      display: none;
-      margin-top: 20px;
-      max-width: 100%;
-    }
   </style>
 </head>
 <body>
@@ -140,8 +133,8 @@
   <div id="overlay"></div>
   <div id="tosModal">
     <h2>Terms &amp; Conditions</h2>
-    <p>I love Isaiah</p>
-    <p>I will not call Isaiah a fatass & give him honeybuns</p>
+    <p>Love Isaiah but not as much as he does you/p>
+    <p>I will give Isaiah Honey Buns</p>
     <br>
     <button id="closeTos" onclick="acceptTos()">&#10004; I Agree</button>
   </div>
@@ -160,19 +153,12 @@
   <!-- Valentine Section -->
   <div id="valentineSection">
     <h1>Will you be my valentine?</h1>
-    <img src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif" alt="Cute Teddy Bear">
+    <img src="https://pusheen.com/wp-content/uploads/2012/02/tumblr_lzdaxhuPsf1qhy6c9o1_500.gif" alt="Cute Cat">
     <div id="buttonContainer">
       <button class="btn-yes" id="yesBtn">Yes</button>
       <button class="btn-no" id="noBtn">No</button>
     </div>
     <div id="message"></div>
-    <!-- Add the final image for the 6th "No" click -->
-    <a href="https://imgflip.com/i/9jfbw8">
-      <img id="finalImage" src="https://i.imgflip.com/9jfbw8.jpg" alt="Your final image" />
-    </a>
-    <div>
-      <a href="https://imgflip.com/memegenerator">from Imgflip Meme Generator</a>
-    </div>
   </div>
  
   <script>
@@ -193,7 +179,7 @@
       var fName = document.getElementById('firstName').value.trim();
       var lName = document.getElementById('lastName').value.trim();
       var loginMsg = document.getElementById('loginMessage');
-      var correctLast = "Murray";
+      var correctLast = "Baptiste";
      
       if(!tosAccepted){
         loginMsg.textContent = "You must accept the Terms first!";
@@ -216,7 +202,6 @@
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     var messageDiv = document.getElementById('message');
-    var finalImage = document.getElementById('finalImage');
    
     // Array of messages for when "No" is pressed
     var noMessages = [
@@ -224,7 +209,8 @@
       "Are you really sure?",
       "I'll die...",
       "Ok, I'm dead...",
-      "Talking to my ghost"
+      "Talking to my ghost",
+      "I'm not sharing my Honey Buns with you anymore"
     ];
     var noCount = 0;
    
@@ -246,9 +232,8 @@
          displayMessage(noMessages[noCount]);
          noCount++;
       } else {
-         // Show the final image after all messages
+         // Once all messages are displayed, you could either disable the button or loop
          displayMessage("I guess that's it...");
-         finalImage.style.display = 'block'; // Display the image
          noBtn.disabled = true;
       }
     });
